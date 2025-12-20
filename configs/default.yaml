@@ -1,0 +1,66 @@
+# Default configuration for GNN Social Good project
+defaults:
+  - _self_
+
+# Data configuration
+data:
+  name: "synthetic_social"
+  num_nodes: 1000
+  num_features: 8
+  num_classes: 2
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  high_risk_ratio: 0.2
+  graph_type: "barabasi_albert"  # barabasi_albert, erdos_renyi, watts_strogatz, small_world
+  m: 3  # Barabasi-Albert parameter
+
+# Model configuration
+model:
+  type: "gcn"  # gcn, sage, gat
+  hidden_dim: 64
+  num_layers: 2
+  dropout: 0.3
+  activation: "relu"
+  normalization: "batch"  # batch, layer, none
+  residual: true
+  
+  # GAT specific
+  num_heads: 4
+  concat: true
+  
+  # SAGE specific
+  aggregator: "mean"  # mean, max, lstm
+
+# Training configuration
+training:
+  epochs: 100
+  batch_size: 1  # Full graph training
+  learning_rate: 0.01
+  weight_decay: 5e-4
+  patience: 20
+  min_delta: 1e-4
+  grad_clip: 1.0
+
+# Evaluation configuration
+evaluation:
+  metrics: ["accuracy", "f1_macro", "f1_micro", "auroc"]
+  save_predictions: true
+  save_embeddings: true
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  use_wandb: false
+  wandb_project: "gnn-social-good"
+  save_checkpoints: true
+  checkpoint_dir: "checkpoints"
+
+# Device configuration
+device:
+  auto: true
+  device_name: "auto"
+
+# Reproducibility
+seed: 42
